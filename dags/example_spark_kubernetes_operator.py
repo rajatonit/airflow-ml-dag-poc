@@ -34,6 +34,9 @@ from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKu
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.utils.dates import days_ago
 
+
+namespace='spark-operator'
+
 # [END import_module]
 
 # [START default_args]
@@ -52,7 +55,7 @@ default_args = {
 with DAG('submit-spark-pi-ex', schedule_interval='@daily', default_args=default_args, catchup=False) as dag:
     t1 = SparkKubernetesOperator(
         task_id='spark_pi_submit',
-        namespace="default",
+        namespace=namespace,
         application_file="example_spark_kubernetes_operator_spark_pi.yaml",
         kubernetes_conn_id="kubernetes_default",
         do_xcom_push=True,
@@ -61,7 +64,7 @@ with DAG('submit-spark-pi-ex', schedule_interval='@daily', default_args=default_
 
     t2 = SparkKubernetesSensor(
         task_id='spark_pi_monitor',
-        namespace="default",
+        namespace=namespace,
         application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
         kubernetes_conn_id="kubernetes_default",
         dag=dag
