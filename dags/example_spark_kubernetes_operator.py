@@ -48,7 +48,7 @@ default_args = {
 # [START instantiate_dag]
 
 
-with DAG('submit spark-pi as sparkApplication on kubernetes', schedule_interval='@daily', default_args=default_args, catchup=False) as dag:
+with DAG('submit-spark-pi-ex', schedule_interval='@daily', default_args=default_args, catchup=False) as dag:
     t1 = SparkKubernetesOperator(
         task_id='spark_pi_submit',
         namespace="default",
