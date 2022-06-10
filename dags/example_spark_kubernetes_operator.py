@@ -41,7 +41,8 @@ from airflow.utils.dates import days_ago
 # You can override them on a per-task basis during operator initialization
 default_args = {
     'email': ['airflow@example.com'],
-    'max_active_runs': 1
+    'max_active_runs': 1,
+    'start-date': days_ago(1)
 }
 # [END default_args]
 
