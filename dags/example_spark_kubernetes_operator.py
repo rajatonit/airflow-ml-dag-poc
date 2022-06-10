@@ -40,39 +40,29 @@ from airflow.utils.dates import days_ago
 # These args will get passed on to each operator
 # You can override them on a per-task basis during operator initialization
 default_args = {
-    'owner': 'airflow',
-    'depends_on_past': False,
-    'start_date': days_ago(1),
     'email': ['airflow@example.com'],
-    'email_on_failure': False,
-    'email_on_retry': False,
     'max_active_runs': 1
 }
 # [END default_args]
 
 # [START instantiate_dag]
 
-dag = DAG(
-    'spark_pi',
-    default_args=default_args,
-    description='submit spark-pi as sparkApplication on kubernetes',
-    schedule_interval=timedelta(days=1),
-)
 
-t1 = SparkKubernetesOperator(
-    task_id='spark_pi_submit',
-    namespace="default",
-    application_file="example_spark_kubernetes_operator_spark_pi.yaml",
-    kubernetes_conn_id="kubernetes_default",
-    do_xcom_push=True,
-    dag=dag,
-)
+with DAG('submit spark-pi as sparkApplication on kubernetes', schedule_interval='@daily', default_args=default_args, catchup=False) as dag:
+    t1 = SparkKubernetesOperator(
+        task_id='spark_pi_submit',
+        namespace="default",
+        application_file="example_spark_kubernetes_operator_spark_pi.yaml",
+        kubernetes_conn_id="kubernetes_default",
+        do_xcom_push=True,
+        dag=dag,
+    )
 
-t2 = SparkKubernetesSensor(
-    task_id='spark_pi_monitor',
-    namespace="default",
-    application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
-    kubernetes_conn_id="kubernetes_default",
-    dag=dag
-)
-t1 >> t2
+    t2 = SparkKubernetesSensor(
+        task_id='spark_pi_monitor',
+        namespace="default",
+        application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
+        kubernetes_conn_id="kubernetes_default",
+        dag=dag
+    )
+    t1 >> t2
