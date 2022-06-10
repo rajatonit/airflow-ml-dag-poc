@@ -42,7 +42,7 @@ from airflow.utils.dates import days_ago
 default_args = {
     'email': ['airflow@example.com'],
     'max_active_runs': 1,
-    'start-date': days_ago(1)
+    'start_date': days_ago(1)
 }
 # [END default_args]
 
