@@ -17,7 +17,7 @@ with DAG('parallel_dag', schedule_interval='@daily',
     catchup=False) as dag:
     task_1 = BashOperator(
         task_id='task_1',
-        bash_command='sleep 3'
+        bash_command='sleep 120'
     )
 
     with TaskGroup('processing_tasks') as processing_tasks:
