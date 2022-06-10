@@ -35,7 +35,7 @@ from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKube
 from airflow.utils.dates import days_ago
 
 
-namespace='spark-operator'
+namespace='airflow-cluster'
 
 # [END import_module]
 
