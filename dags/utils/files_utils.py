@@ -16,6 +16,5 @@ def load_files(names_list):
     load each csv file from the tmp folder with the input names
     returns a list of loaded dataframes
     '''
-    df_list = []
-    [ df_list.append(pd.read_csv("gs://spark-poc-ca/data/" + name + ".csv")) for name in names_list if os.path.isfile('/opt/airflow/data/' + name + '.csv') ]
+    df_list = [ df_list.append(pd.read_csv("gs://spark-poc-ca/data/" + name + ".csv")) for name in names_list if os.path.isfile('/opt/airflow/data/' + name + '.csv') ]
     return df_list
