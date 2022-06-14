@@ -9,8 +9,8 @@ def load_data():
     labels = np.reshape(breast_ds.target, (569,1))
     breast_data = np.concatenate([breast_ds.data, labels], axis=1)
     df = pd.DataFrame(breast_data)
-    print(df.show())
+    print(df)
     df.columns = np.append(breast_ds.feature_names, 'label')
     df.name="df"
-    print(df.show())
+    print(df)
     save_files([df])
