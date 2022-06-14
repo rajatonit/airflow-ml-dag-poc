@@ -1,5 +1,5 @@
 params = {
-    "db_engine": "postgresql+psycopg2://airflow:airflow@postgres/airflow",
+    "db_engine": "postgresql+psycopg2://postgres:postgres@10.144.5.55/postgres",
     "db_schema": "public",
     "db_experiments_table": "experiments",
     "db_batch_table": "batch_data",
