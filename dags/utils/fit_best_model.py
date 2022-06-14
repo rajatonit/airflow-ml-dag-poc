@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
 
-from utils.files_util import load_files
+from utils.files_utils import load_files
 
 def fit_best_model():
     

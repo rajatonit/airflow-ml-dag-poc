@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-from utils.files_util import load_files
+from utils.files_utils import load_files
 import utils.ml_pipeline_config as config
 
 db_engine = config.params["db_engine"]

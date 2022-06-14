@@ -1,7 +1,7 @@
 
 import pandas as pd
 from sklearn import model_selection
-from utils.files_util import save_files, load_files
+from utils.files_utils import save_files, load_files
 
 import utils.ml_pipeline_config as config
 

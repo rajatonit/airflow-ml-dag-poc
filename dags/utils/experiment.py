@@ -9,7 +9,7 @@ from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-from utils.files_util import save_files, load_files
+from utils.files_utils import save_files, load_files
 import utils.ml_pipeline_config as config
 
 
