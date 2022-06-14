@@ -21,4 +21,4 @@ def fit_best_model():
     # save best model
     now = datetime.now().strftime('%d-%m-%Y_%H:%M:%S')
     filename = 'model_' + now + '.pkl'
-    joblib.dump(pipe, '/opt/airflow/models/' + filename, compress=1)
+    joblib.dump(pipe, 'gs://spark-poc-ca/models/' + filename, compress=1)
