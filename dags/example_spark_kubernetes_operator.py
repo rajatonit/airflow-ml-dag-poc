@@ -64,7 +64,7 @@ with DAG('submit-spark-pi-ex', schedule_interval='@daily', default_args=default_
     t2 = SparkKubernetesSensor(
         task_id='spark_submit_ml_airflow_simple_ex_monitor',
         namespace=namespace,
-        application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
+        application_name="{{ task_instance.xcom_pull(task_ids='spark_submit_ml_airflow_simple_ex')['metadata']['name'] }}",
         kubernetes_conn_id="kubernetes_default",
         dag=dag
     )
