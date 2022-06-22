@@ -43,7 +43,6 @@ namespace='spark-operator'
 # These args will get passed on to each operator
 # You can override them on a per-task basis during operator initialization
 default_args = {
-    'email': ['airflow@example.com'],
     'max_active_runs': 1,
     'start_date': days_ago(1)
 }
