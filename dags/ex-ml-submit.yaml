@@ -1,0 +1,58 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: simple-ml-ex-from-airflow
+  namespace: spark-operator
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: rajatonit/spark-py:1.0.3
+  imagePullPolicy: Always
+  hadoopConf:
+    "fs.gs.project.id": "wsdsw-sandbox"
+    "fs.gs.system.bucket": "spark-poc-ca"
+    "google.cloud.auth.service.account.enable": "true"
+    "google.cloud.auth.service.account.json.keyfile": "/creds/google_sa_key.json"
+    "fs.gs.impl": "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem"
+  mainApplicationFile: gs://spark-poc-ca/ex_ml.py
+  sparkVersion: "3.1.1"
+  restartPolicy:
+    type: OnFailure
+    onFailureRetries: 3
+    onFailureRetryInterval: 10
+    onSubmissionFailureRetries: 5
+    onSubmissionFailureRetryInterval: 20
+  volumes:
+    - name: "test-volume"
+      hostPath:
+        path: "/tmp"
+        type: Directory
+    - name: gcp-cred
+      secret:
+        secretName: google-sa-key
+  timeToLiveSeconds: 120
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "512m"
+    labels:
+      version: 3.1.1
+    serviceAccount: spark-release-spark
+  executor:
+    cores: 1
+    instances: 2
+    memory: "512m"
+    labels:
+      version: 3.1.1
+  sparkConf:
+    "spark.eventLog.enabled": "true"
+    "spark.eventLog.dir": "gs://spark-poc-logs"
+    "spark.driver.extraJavaOptions": "-Divy.cache.dir=/tmp -Divy.home=/tmp"
+    "spark.kubernetes.driver.secrets.google-sa-key": "/creds"
+    "spark.kubernetes.executor.secrets.google-sa-key": "/creds"
+    "spark.hadoop.fs.AbstractFileSystem.gs.impl": "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS"
+    "spark.hadoop.fs.gs.project.id": "wsdsw-sandbox"
+    "spark.hadoop.google.cloud.auth.service.account.enable": "true"
+    "spark.kubernetes.driverEnv.GOOGLE_APPLICATION_CREDENTIALS": "/creds/google_sa_key.json"
+    "spark.executorEnv.GOOGLE_APPLICATION_CREDENTIALS": "/creds/google_sa_key.json"

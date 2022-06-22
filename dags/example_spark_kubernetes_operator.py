@@ -54,16 +54,16 @@ default_args = {
 
 with DAG('submit-spark-pi-ex', schedule_interval='@daily', default_args=default_args, catchup=False) as dag:
     t1 = SparkKubernetesOperator(
-        task_id='spark_pi_submit',
+        task_id='spark_submit_ml_airflow_simple_ex',
         namespace=namespace,
-        application_file="example_spark_kubernetes_operator_spark_pi.yaml",
+        application_file="ex-ml-submit.yaml",
         kubernetes_conn_id="kubernetes_default",
         do_xcom_push=True,
         dag=dag,
     )
 
     t2 = SparkKubernetesSensor(
-        task_id='spark_pi_monitor',
+        task_id='spark_submit_ml_airflow_simple_ex_monitor',
         namespace=namespace,
         application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
         kubernetes_conn_id="kubernetes_default",
