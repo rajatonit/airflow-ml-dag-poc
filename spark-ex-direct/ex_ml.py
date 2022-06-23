@@ -76,3 +76,5 @@ if __name__ == "__main__":
 
     accuracy = evaluator.evaluate(predictions)
     print('Test Accuracy = ', accuracy)
+
+    spark.stop()

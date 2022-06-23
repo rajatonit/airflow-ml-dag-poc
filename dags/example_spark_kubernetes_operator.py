@@ -51,7 +51,7 @@ default_args = {
 # [START instantiate_dag]
 
 
-with DAG('submit-spark-pi-ex', schedule_interval='@daily', default_args=default_args, catchup=False) as dag:
+with DAG('submit-spark-simple-ex', schedule_interval='@daily', default_args=default_args, catchup=False) as dag:
     t1 = SparkKubernetesOperator(
         task_id='spark_submit_ml_airflow_simple_ex',
         namespace=namespace,
